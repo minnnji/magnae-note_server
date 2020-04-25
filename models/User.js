@@ -1,9 +1,20 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-const UserSchema = new mongoose.Schema({
-  email : { type: String , required: true, unique: true },
-  name: { type: String, required: true },
-  myMeetings: { type: Array, default: [] }
+const UserSchema = new Schema({
+  email : {
+    type: String,
+    required: true,
+    unique: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  myMeetings: {
+    type: Array,
+    default: []
+  }
 }, {
   versionKey: false
 });

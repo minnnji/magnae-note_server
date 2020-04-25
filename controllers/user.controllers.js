@@ -8,7 +8,7 @@ exports.login = async (req, res, next) => {
     let user = await User.findOne({ email });
     if (!user) user = await new User({ email, name }).save();
 
-    const payload = { email: user.email, name: user.name };
+    const payload = { email: user.email, name: user.name, _id: user._id };
     const jwtToken = await jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     res.json({ jwtToken, payload });

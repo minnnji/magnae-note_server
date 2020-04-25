@@ -21,9 +21,11 @@ app.use(cookieParser());
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const meetingRouter = require('./routes/meetings');
 
 app.use('/', indexRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/meetings', meetingRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
@@ -32,7 +34,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  console.log(err);
   res.status(err.status || 500);
   res.json({ err });
 });
