@@ -1,8 +1,9 @@
 require('dotenv').config();
+require('./config/mongoose');
+
 const createError = require('http-errors');
 const express = require('express');
-const cors = require('cors')
-const mongoose = require('mongoose');
+const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -18,20 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGODB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
-db.once('open', () => console.log('✔️  MongoDB Connected'));
-db.on('error', () => console.error('❌  MongoDB Connection Error '));
-
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/auth', authRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
@@ -42,7 +34,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   res.status(err.status || 500);
-  res.json('error');
+  res.json({ err });
 });
 
 module.exports = app;
