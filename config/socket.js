@@ -1,4 +1,5 @@
 const util = require('util');
+const rooms = {};
 const users = {};
 
 const handleSocket = io => {
@@ -7,6 +8,7 @@ const handleSocket = io => {
 
     socket.on('createRoom', (name, roomId) => {
       const socketId = socket.id;
+      rooms[roomId] = socketId;
       users[socketId] = name;
 
       socket.join(roomId, () => {
@@ -16,12 +18,20 @@ const handleSocket = io => {
       socket.emit('message', { message: '참석자를 기다리는 중입니다.' });
     });
 
-    if (!users[socket.id]) {
-      users[socket.id] = socket.id;
-    }
+    socket.on('peerCall', data => {
+      io.to(rooms[data.roomId]).emit('peerCallToCreator', {
+        signal: data.signalData,
+        from: data.from
+      });
+    });
 
+    socket.on('creatorCall', data => {
+      io.to(data.to).emit('callAccepted', data.signal);
+    })
+
+    // To Do
     socket.on('disconnect', () => {
-      delete users[socket.id];
+      // delete rooms[roomId];
     });
   });
 }
