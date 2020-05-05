@@ -29,12 +29,14 @@ app.use(cookieParser());
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const userRouter = require('./routes/users');
 const meetingRouter = require('./routes/meetings');
 const ibmRouter = require('./routes/speech-to-text');
 
 app.use('/', indexRouter);
 app.use('/api/', limiter);
 app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
 app.use('/api/meetings', meetingRouter);
 app.use('/api/speech-to-text', ibmRouter);
 

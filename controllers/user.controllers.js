@@ -17,3 +17,29 @@ exports.login = async (req, res, next) => {
     next(createError(500, '일시적인 오류가 발생하였습니다.'));
   }
 };
+
+exports.getUser = async (req, res, next) => {
+  const userId = req.params.user_id;
+  try {
+    const userById = await User.findById(userId).populate('myMeetings').lean();
+    res.json({ userById });
+  } catch (err) {
+    console.log(err);
+    next(createError(500, '일시적인 오류가 발생하였습니다.'));
+  }
+};
+
+exports.updateUser = async (req, res, next) => {
+  const userId = req.params.user_id;
+  const { meetingId } = req.body;
+  try {
+    const userInfo = await User.updateOne(
+      { _id: userId },
+      { $push: { myMeetings: meetingId } }
+    );
+    res.json({ userInfo });
+  } catch (err) {
+    console.log(err);
+    next(createError(500, '일시적인 오류가 발생하였습니다.'));
+  }
+};

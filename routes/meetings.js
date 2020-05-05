@@ -1,14 +1,14 @@
 const express = require('express');
 const meetings = express.Router();
-const MeetingController = require('../controllers/meeting.controllers');
+const meetingController = require('../controllers/meeting.controllers');
 
-meetings.post('/', MeetingController.createMeeting);
+meetings.post('/', meetingController.createMeeting);
 
 meetings.post('/validation',
-  MeetingController.passwordValidation,
-  MeetingController.getMeetingById);
+  meetingController.passwordValidation,
+  meetingController.getMeetingById);
 
 meetings.put('/:meeting_id',
-  MeetingController.updateMeeting);
+  meetingController.updateMeeting);
 
 module.exports = meetings;

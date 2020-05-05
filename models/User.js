@@ -11,10 +11,11 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  myMeetings: {
-    type: Array,
-    default: []
-  }
+  myMeetings: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Meeting',
+    required: true
+  }]
 }, {
   versionKey: false
 });
