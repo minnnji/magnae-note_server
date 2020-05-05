@@ -21,8 +21,8 @@ const MeetingSchema = new Schema({
   endTime: {
     type: Date
   },
-  participants: {
-    type: String
+  memberList: {
+    type: Array
   }
 }, {
   versionKey: false

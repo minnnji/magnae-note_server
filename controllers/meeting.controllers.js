@@ -43,3 +43,16 @@ exports.getMeetingById = async (req, res, next) => {
     next(createError(500, '일시적인 오류가 발생하였습니다.'));
   }
 };
+
+exports.updateMeeting = async (req, res, next) => {
+  const meeting_id = req.params.meeting_id;
+  const updateInfo = req.body;
+  let update = { $set: updateInfo };
+  try {
+    const meetingInfo = await Meeting.updateMany({ _id: meeting_id }, update);
+    res.json({ meetingInfo });
+  } catch (err) {
+    console.log(err);
+    next(createError(500, '일시적인 오류가 발생하였습니다.'));
+  }
+}

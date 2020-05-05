@@ -29,8 +29,8 @@ const handleSocket = io => {
 
     socket.on('joinRoom', (name, roomId) => {
       addUser(roomId, name, socket.id);
-
-      io.sockets.emit("thisRoomUsers", rooms[roomId][0]);
+      io.to(roomId).emit("thisRoomUsers", rooms[roomId]);
+      socket.emit("thisRoomUsers", rooms[roomId]);
     });
 
     socket.on('disconnect', () => {

@@ -8,4 +8,7 @@ meetings.post('/validation',
   MeetingController.passwordValidation,
   MeetingController.getMeetingById);
 
+meetings.put('/:meeting_id',
+  MeetingController.updateMeeting);
+
 module.exports = meetings;
