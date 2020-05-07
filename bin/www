@@ -6,7 +6,7 @@ const port = normalizePort(process.env.PORT || '4000');
 app.set('port', port);
 
 const server = http.createServer(app);
-const io = require('socket.io').listen(server, {
+const io = require('socket.io')(3030).listen(server, {
   log: false,
   origins: '*:*',
   pingInterval: 3000,
