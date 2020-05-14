@@ -34,9 +34,10 @@ exports.passwordValidation = async (req, res, next) => {
 };
 
 exports.getMeetingById = async (req, res, next) => {
-  const roomId = res.locals.meetingId;
+  const meeting_id = req.params.meeting_id ? req.params.meeting_id : res.locals.meetingId;
+
   try {
-    const meetingInfo = await Meeting.findById(roomId).lean();
+    const meetingInfo = await Meeting.findById(meeting_id).lean();
     res.json({ meetingInfo });
   } catch (err) {
     console.log(err);
