@@ -1,8 +1,8 @@
+const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
+const checkAuth = (req, res, next) => {
   const token = req.header('Authorization').split('Bearer')[1].trim();
-
   if (!token) {
     return res.status(401).json({
       errorMessage: 'Unauthorized user.'
@@ -15,6 +15,8 @@ module.exports = (req, res, next) => {
     next();
   } catch (err) {
     console.error('authentication error', err);
-    next(createError(401, 'Invalid Token'));
+    next(createError(401, '로그인이 만료되었습니다. 다시 로그인해주시기 바랍니다.'));
   }
 };
+
+module.exports = checkAuth;
